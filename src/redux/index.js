@@ -1,11 +1,16 @@
-import {createStore} from 'redux';
-import reducer from './reducer';
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import reducer from "./reducer";
 const defaultState = {
     todos: [],
-    filter: 'all'
-} 
+    filter: "all",
+};
 const enableReduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__?.();
 
-export function createReduxStore(state= defaultState){
-    return createStore(reducer, state, enableReduxDevTools)
+export function createReduxStore(state = defaultState) {
+    return createStore(
+        reducer,
+        state,
+        compose(applyMiddleware(thunk), enableReduxDevTools)
+    );
 }
