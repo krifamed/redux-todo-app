@@ -49,6 +49,7 @@ const TodoItem = ({ todo, onUpdateTodo, onDeleteTodo }) => {
                     <label
                         onDoubleClick={() => editOnDoubleClick(todo)}
                         className="label__todo"
+                        data-testid="label_todo"
                     >
                         {todo.todo}
                     </label>

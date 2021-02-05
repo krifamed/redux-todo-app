@@ -1,4 +1,5 @@
 import {
+    addTodo,
     fetchTodos,
     deleteTodo,
     updateTodo,
@@ -6,6 +7,25 @@ import {
     clearCompleted,
 } from "../redux/actions";
 import { URL } from "../constants";
+
+export const addTodoService = (todo) => async (dispatch) => {
+    try{
+        const req = await fetch(`${URL}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                todo: todo,
+            }),
+        });
+        const res = await req.json();
+        return dispatch(addTodo(res));
+    }
+    catch(err){
+        throw new Error(err);
+    }
+}
 
 export const getTodosService = () => async (dispatch) => {
     // dispatch({fetchTodoRequest});

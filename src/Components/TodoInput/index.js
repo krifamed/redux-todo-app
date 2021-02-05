@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { addTodo } from "../../redux/actions";
-import { URL } from "../../constants";
-
+import { addTodoService } from "../../services/todos";
+import { addTodo } from '../../redux/actions';
 const Header = () => {
     const dispatch = useDispatch();
     const [todo, setTodo] = useState("");
@@ -12,22 +11,10 @@ const Header = () => {
 
     const saveTodo = async (event) => {
         if (event.key === "Enter" && todo !== "") {
-            const req = await fetch(`${URL}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    todo: todo,
-                }),
-            });
-            const res = await req.json();
-            if (res) {
-                dispatch(addTodo(res));
-                setTodo("");
-            } else {
-                console.log("Error: can't add a new todo");
-            }
+            // return dispatch(addTodo({}));
+            // addTodoService(todo)(dispatch);
+            dispatch(addTodoService(todo));
+            setTodo("");
         }
     };
     return (

@@ -18,7 +18,6 @@ const TodoList = () => {
     }, []);
 
     const filteredTodos = useSelector(selectFilteredTodos);
-
     const isAllCompleted = useSelector(selectIsAllCompleted);
     const onDeleteTodo = (todo_id) => {
         dispatch(deleteTodoService(todo_id));

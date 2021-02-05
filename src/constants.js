@@ -1,2 +1,2 @@
-export const URL = 'http://87425c502d3c.ngrok.io/todos';
+export const URL = 'http://localhost:1337/todos';
 
