@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import styled from "styled-components";
 import TodoItem from "../TodoItem";
 import {
     getTodosService,
@@ -8,7 +9,12 @@ import {
     completeAllService,
 } from "../../services/todos";
 
-import { selectFilteredTodos, selectIsAllCompleted } from '../../redux/selectors';
+import {
+    selectFilteredTodos,
+    selectIsAllCompleted,
+} from "../../redux/selectors";
+
+import ToggleAll from "./ToggleAll";
 
 const TodoList = () => {
     const dispatch = useDispatch();
@@ -28,20 +34,14 @@ const TodoList = () => {
     };
 
     return (
-        <section className="main">
-            <input
-                id="toggle-all"
-                className="toggle-all"
-                type="checkbox"
-                checked={isAllCompleted}
-                readOnly
+        <Main>
+            <ToggleAll
+                isAllCompleted={isAllCompleted}
+                onCompleteAll={() =>
+                    dispatch(completeAllService(isAllCompleted))
+                }
             />
-            <label
-                htmlFor="toggle-all"
-                onClick={() => dispatch(completeAllService(isAllCompleted))}
-            />
-
-            <ul className="todos__list">
+            <Todos className="todos__list">
                 {filteredTodos.map((todo) => (
                     <TodoItem
                         key={todo.id}
@@ -50,9 +50,20 @@ const TodoList = () => {
                         onDeleteTodo={onDeleteTodo}
                     />
                 ))}
-            </ul>
-        </section>
+            </Todos>
+        </Main>
     );
 };
+
+
+const Main = styled.section`
+    position: relative;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+`;
+
+const Todos = styled.ul``;
 
 export default TodoList;
