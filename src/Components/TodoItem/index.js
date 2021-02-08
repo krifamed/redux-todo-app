@@ -45,6 +45,7 @@ const TodoItem = ({ todo, onUpdateTodo, onDeleteTodo }) => {
                         className="toggle"
                         checked={!todo.active}
                         onChange={onChange}
+                        data-testid="toggle"
                     />
                     <label
                         onDoubleClick={() => editOnDoubleClick(todo)}

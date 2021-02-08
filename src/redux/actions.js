@@ -1,33 +1,35 @@
+import * as types from './actionsTypes';
+
 export const fetchTodos = (todos) => ({
-    type: "FETCH_TODOS",
+    type: types.FETCH_TODOS,
     payload: { todos },
 });
 
 export const addTodo = (todo) => ({
-    type: "ADD_TODO",
+    type: types.ADD_TODO,
     payload: { todo },
 });
 
 export const updateTodo = (id, data) => ({
-    type: "UPDATE_TODO",
+    type: types.UPDATE_TODO,
     payload: { id, data },
 });
 
 export const deleteTodo = (id) => ({
-    type: "DELETE_TODO",
+    type: types.DELETE_TODO,
     payload: { id },
 });
 
 export const completeAll = (active) => ({
-    type: "COMPLETE_ALL",
+    type: types.COMPLETE_ALL,
     payload: { active },
 });
 
 export const clearCompleted = {
-    type: "CLEAR_COMPLETED",
+    type: types.CLEAR_COMPLETED,
 };
 
 export const applyFilter = (filter) => ({
-    type: "APPLY_FILTER",
+    type: types.APPLY_FILTER,
     payload: { filter },
 });
