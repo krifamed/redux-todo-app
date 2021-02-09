@@ -8,14 +8,21 @@ import {
     selectFilter,
 } from "../../redux/selectors";
 
+import useTodos from '../../hooks/useTodos';
+
 const TodoActions = () => {
     const dispatch = useDispatch();
+    const { data, isLoading, errors, handler } = useTodos();
 
     const filter = useSelector(selectFilter);
 
     const completedCount = useSelector(selectCompletedCount);
 
     const todosCount = useSelector(selectTodosLength) - completedCount;
+
+    const onClearCompleted = ()=> {
+        handler(()=> dispatch(clearCompletedService()));
+    }
 
     return (
         <TodosState>
@@ -51,7 +58,7 @@ const TodoActions = () => {
             </Filters>
             <div>
                 {completedCount !== 0 && (
-                    <Button onClick={() => dispatch(clearCompletedService())}>
+                    <Button onClick={onClearCompleted}>
                         Clear completed
                     </Button>
                 )}

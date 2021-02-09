@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addTodoService } from "../../services/todos";
 import styled from "styled-components";
+import useTodos from "../../hooks/useTodos";
 
 const Input = styled.input`
     color: #4d4d4d;
@@ -15,22 +16,28 @@ const Input = styled.input`
     &:placeholder {
         color: #e6e6e6;
         font-size: 24px;
-      }
-
+    }
 `;
 
 const TodoInput = () => {
-    const dispatch = useDispatch();
     const [todo, setTodo] = useState("");
+    const dispatch = useDispatch();
+    const { data, isLoading, errors, handler } = useTodos();
+
+    useEffect(()=>{
+        if(isLoading===false&& data){
+            dispatch(addTodoService([data]));
+        }
+    },[isLoading, data]);
+    
     const onChange = (event) => {
         setTodo(event.target.value);
     };
-
     const saveTodo = async (event) => {
         if (event.key === "Enter" && todo !== "") {
             // return dispatch(addTodo({}));
             // addTodoService(todo)(dispatch);
-            dispatch(addTodoService(todo));
+            handler(async ()=> dispatch(addTodoService(todo)));
             setTodo("");
         }
     };

@@ -25,9 +25,16 @@ export const completeAll = (active) => ({
     payload: { active },
 });
 
-export const clearCompleted = {
+export const clearCompleted = () => ({
     type: types.CLEAR_COMPLETED,
-};
+});
+
+export const loadingTodos = (isLoading) => ({
+    type: types.LOADING_TODOS,
+    payload: {
+        isLoading
+    }
+});
 
 export const applyFilter = (filter) => ({
     type: types.APPLY_FILTER,

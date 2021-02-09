@@ -8,88 +8,61 @@ import {
 } from "../redux/actions";
 import { URL } from "../constants";
 
-export const addTodoService = (todo) => async (dispatch) => {
-    try{
-        const req = await fetch(`${URL}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                todo: todo,
-            }),
-        });
-        const res = await req.json();
-        return dispatch(addTodo(res));
-    }
-    catch(err){
-        throw new Error(err);
-    }
-}
+export const fetchCall = async (url = URL, config = {}) => {
+    const req = await fetch(url, config);
+    return await req.json();
+};
 
 export const getTodosService = () => async (dispatch) => {
-    // dispatch({fetchTodoRequest});
-    try {
-        const req = await fetch(`${URL}`);
-        const res = await req.json();
-        return dispatch(fetchTodos(res));
-    } catch (err) {
-        console.error(err);
-    }
+    const res = await fetchCall();
+    return dispatch(fetchTodos(res));
+};
+
+export const addTodoService = (todo) => async (dispatch) => {
+    const res = await fetchCall(`${URL}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            todo: todo,
+        }),
+    });
+    return dispatch(addTodo(res));
 };
 
 export const deleteTodoService = (todo_id) => async (dispatch) => {
-    try {
-        const req = await fetch(`${URL}/${todo_id}`, {
-            method: "DELETE",
-        });
-        const res = await req.json();
-        return dispatch(deleteTodo(res.id));
-    } catch (err) {
-        console.error(err);
-    }
+    const res = await fetchCall(`${URL}/${todo_id}`, {
+        method: "DELETE",
+    });
+    return dispatch(deleteTodo(res.id));
 };
 
 export const updateTodoService = (todo_id, data) => async (dispatch) => {
-    try {
-        const req = await fetch(`${URL}/${todo_id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        const res = await req.json();
-        return dispatch(updateTodo(todo_id, res));
-    } catch (err) {
-        console.error(err);
-    }
+    const res = await fetchCall(`${URL}/${todo_id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    return dispatch(updateTodo(todo_id, res));
 };
 
 export const completeAllService = (active) => async (dispatch) => {
-    try {
-        const req = await fetch(`${URL}/toggle_completed`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ active: active }),
-        });
-        const res = req.json();
-        return dispatch(completeAll(active));
-    } catch (err) {
-        console.error(err);
-    }
+    await fetchCall(`${URL}/toggle_completed`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ active: active }),
+    });
+    return dispatch(completeAll(active));
 };
 
 export const clearCompletedService = () => async (dispatch) => {
-    try {
-        const req = await fetch(`${URL}/clear_completed`, {
-            method: "DELETE",
-        });
-        const res = req.json();
-        return dispatch(clearCompleted);
-    } catch (err) {
-        console.error(err);
-    }
+    await fetchCall(`${URL}/clear_completed`, {
+        method: "DELETE",
+    });
+    return dispatch(clearCompleted());
 };
